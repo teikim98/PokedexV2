@@ -1,0 +1,43 @@
+export const TYPE_COLORS = {
+  normal: "bg-gray-400",
+  fire: "bg-red-500",
+  water: "bg-blue-500",
+  electric: "bg-yellow-400",
+  grass: "bg-green-500",
+  ice: "bg-blue-300",
+  fighting: "bg-red-700",
+  poison: "bg-purple-500",
+  ground: "bg-yellow-600",
+  flying: "bg-indigo-400",
+  psychic: "bg-pink-500",
+  bug: "bg-lime-500",
+  rock: "bg-yellow-800",
+  ghost: "bg-purple-700",
+  dragon: "bg-indigo-600",
+  dark: "bg-gray-700",
+  steel: "bg-gray-500",
+  fairy: "bg-pink-400",
+} as const;
+
+export const TYPE_TRANSLATIONS = {
+  normal: "노말",
+  fire: "불꽃",
+  water: "물",
+  electric: "전기",
+  grass: "풀",
+  ice: "얼음",
+  fighting: "격투",
+  poison: "독",
+  ground: "땅",
+  flying: "비행",
+  psychic: "에스퍼",
+  bug: "벌레",
+  rock: "바위",
+  ghost: "고스트",
+  dragon: "드래곤",
+  dark: "악",
+  steel: "강철",
+  fairy: "페어리",
+} as const;
+
+export type PokemonType = keyof typeof TYPE_COLORS;

@@ -2,6 +2,15 @@ export interface NamedAPIResource {
   name: string;
   url: string;
 }
+export interface PokemonSpecies {
+  names: {
+    name: string;
+    language: {
+      name: string;
+      url: string;
+    };
+  }[];
+}
 
 // 포켓몬 능력치
 interface PokemonAbility {

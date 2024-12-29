@@ -1,15 +1,25 @@
 // src/components/pokemon/PokemonCard.tsx
-import { NamedAPIResource } from '../../api/types';
+import { Key } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Pokemon, NamedAPIResource } from '../../api/types';
 import { usePokemonDetail } from '../../hooks/usePokemonDetail';
+import { TYPE_COLORS, TYPE_TRANSLATIONS } from '../../utils/constants';
 
+// pokemon prop이 NamedAPIResource 또는 Pokemon & { koreanName?: string }이 될 수 있도록 타입을 수정
 interface PokemonCardProps {
-    pokemon: NamedAPIResource;
+    pokemon: NamedAPIResource | (Pokemon & { koreanName?: string });
+    isFromList?: boolean;
 }
 
 const PokemonCard = ({ pokemon }: PokemonCardProps) => {
-    // URL에서 ID 추출
-    const id = pokemon.url.split('/')[6];
-    const { data, isLoading } = usePokemonDetail(id);
+    // pokemon이 NamedAPIResource인지 확인
+    const isNamedResource = 'url' in pokemon;
+    const navigate = useNavigate();
+
+    const id = isNamedResource ? pokemon.url.split('/')[6] : pokemon.id;
+    const { data, isLoading } = isNamedResource
+        ? usePokemonDetail(id)
+        : { data: pokemon, isLoading: false };
 
     if (isLoading) {
         return (
@@ -20,23 +30,25 @@ const PokemonCard = ({ pokemon }: PokemonCardProps) => {
     }
 
     return (
-        <div className="rounded-lg bg-white p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer">
-            <div className="flex flex-col items-center">
+        <div
+            className="rounded-lg bg-white p-4 shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+            onClick={() => navigate(`/pokemon/${id}`)}
+        >            <div className="flex flex-col items-center">
                 <img
                     src={data?.sprites.front_default || ''}
-                    alt={data?.name}
+                    alt={data?.koreanName || data?.name}
                     className="w-32 h-32 object-contain"
                 />
                 <h3 className="text-lg font-semibold capitalize mt-2">
-                    {data?.name}
+                    {data?.koreanName || data?.name}
                 </h3>
                 <div className="flex gap-2 mt-2">
-                    {data?.types.map((type) => (
+                    {data?.types.map((type: { type: { name: Key | null | undefined; }; }) => (
                         <span
                             key={type.type.name}
-                            className="px-2 py-1 rounded-full text-sm text-white bg-blue-500"
+                            className={`px-3 py-1 rounded-full text-sm text-white ${TYPE_COLORS[type.type.name as keyof typeof TYPE_COLORS]}`}
                         >
-                            {type.type.name}
+                            {TYPE_TRANSLATIONS[type.type.name as keyof typeof TYPE_TRANSLATIONS]}
                         </span>
                     ))}
                 </div>

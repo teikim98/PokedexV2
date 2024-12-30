@@ -5,7 +5,7 @@ import { Pokemon, PokemonListResponse, PokemonSpecies } from "./types";
 const BASE_URL = "https://pokeapi.co/api/v2";
 
 export const pokemonApi = {
-  getPokemons: async (page: number = 1, limit: number = 20) => {
+  getPokemons: async (page: number = 1, limit: number = 52) => {
     const offset = (page - 1) * limit;
     const response = await axios.get<PokemonListResponse>(
       `${BASE_URL}/pokemon?offset=${offset}&limit=${limit}`

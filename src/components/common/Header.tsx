@@ -2,9 +2,12 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu, Search, X } from 'lucide-react';
+import { useRecoilState } from 'recoil';
+import { searchState } from '../../store/searchStore';
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [searchText, setSearchText] = useRecoilState(searchState);
 
     return (
         <header className="sticky top-0 bg-white shadow-md z-50">
@@ -19,6 +22,8 @@ const Header = () => {
                             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                             <input
                                 type="text"
+                                value={searchText}
+                                onChange={(e) => setSearchText(e.target.value)}
                                 placeholder="포켓몬 검색..."
                                 className="pl-10 pr-4 py-2 w-[300px] border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                             />
@@ -47,6 +52,8 @@ const Header = () => {
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                         <input
                             type="text"
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
                             placeholder="포켓몬 검색..."
                             className="w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />

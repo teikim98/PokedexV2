@@ -45,7 +45,7 @@ const Header = () => {
                         onClick={resetSearch}
                     >
                         <img
-                            src="/pokeball.png"
+                            src="./pokeball.png"
                             alt="포켓볼"
                             className="w-8 h-8 animate-spin-slow"
                         />
@@ -74,7 +74,7 @@ const Header = () => {
                         onClick={resetSearch}
                     >
                         <img
-                            src="/pokeball.png"
+                            src="./pokeball.png"
                             alt="포켓볼"
                             className="w-6 h-6"
                         />

@@ -1,6 +1,8 @@
+import { useRef, useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
 import { usePokemonList } from '../../hooks/usePokemonList';
 import { searchState } from '../../store/searchStore';
+import LoadingSpinner from '../common/LoadingSpinner';
 import PokemonCard from './PokemonCard';
 
 const PokemonList = () => {
@@ -13,7 +15,34 @@ const PokemonList = () => {
     } = usePokemonList();
 
     const search = useRecoilValue(searchState);
+    const observerRef = useRef<IntersectionObserver>();
+    const loadMoreRef = useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        // 옵저버 생성
+        const observer = new IntersectionObserver(
+            (entries) => {
+                if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage && !search.text && !search.type) {
+                    fetchNextPage();
+                }
+            },
+            { threshold: 1.0 }
+        );
+
+        observerRef.current = observer;
+
+        // 옵저버 연결
+        if (loadMoreRef.current) {
+            observer.observe(loadMoreRef.current);
+        }
+
+        // 클린업
+        return () => {
+            if (loadMoreRef.current) {
+                observer.unobserve(loadMoreRef.current);
+            }
+        };
+    }, [hasNextPage, isFetchingNextPage, search.text, search.type]);
 
     const filteredPokemon = data?.pages.flatMap(page =>
         page.results.filter(pokemon => {
@@ -25,9 +54,12 @@ const PokemonList = () => {
         })
     );
 
-
     if (isLoading) {
-        return <div>로딩중...</div>;
+        return (
+            <div className="flex justify-center items-center min-h-[50vh]">
+                <LoadingSpinner />
+            </div>
+        );
     }
 
     return (
@@ -37,15 +69,11 @@ const PokemonList = () => {
                     <PokemonCard key={pokemon.id} pokemon={pokemon} />
                 ))}
             </div>
-            {!search && hasNextPage && (
-                <div className="flex justify-center mt-8">
-                    <button
-                        onClick={() => fetchNextPage()}
-                        disabled={isFetchingNextPage}
-                        className="px-6 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 disabled:bg-gray-400 transition-colors"
-                    >
-                        {isFetchingNextPage ? '로딩중...' : '더 보기'}
-                    </button>
+
+            {/* 무한 스크롤 로딩 */}
+            {!search.text && !search.type && (
+                <div ref={loadMoreRef}>
+                    {isFetchingNextPage && <LoadingSpinner />}
                 </div>
             )}
         </div>

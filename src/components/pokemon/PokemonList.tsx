@@ -12,14 +12,17 @@ const PokemonList = () => {
         isLoading
     } = usePokemonList();
 
-    const searchText = useRecoilValue(searchState);
+    const search = useRecoilValue(searchState);
 
 
     const filteredPokemon = data?.pages.flatMap(page =>
-        page.results.filter(pokemon =>
-            pokemon.name.toLowerCase().includes(searchText.toLowerCase()) ||
-            pokemon.koreanName?.toLowerCase().includes(searchText.toLowerCase())
-        )
+        page.results.filter(pokemon => {
+            const nameMatch = (pokemon.name.toLowerCase().includes(search.text.toLowerCase()) ||
+                pokemon.koreanName?.toLowerCase().includes(search.text.toLowerCase()));
+            const typeMatch = !search.type ||
+                pokemon.types.some(t => t.type.name === search.type);
+            return nameMatch && typeMatch;
+        })
     );
 
 
@@ -34,7 +37,7 @@ const PokemonList = () => {
                     <PokemonCard key={pokemon.id} pokemon={pokemon} />
                 ))}
             </div>
-            {!searchText && hasNextPage && (
+            {!search && hasNextPage && (
                 <div className="flex justify-center mt-8">
                     <button
                         onClick={() => fetchNextPage()}

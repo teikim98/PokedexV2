@@ -1,6 +1,14 @@
 import { atom } from "recoil";
 
-export const searchState = atom({
-  key: "searchState", // unique한 key 값
-  default: "", // 초기값
+interface SearchState {
+  text: string;
+  type: string | null;
+}
+
+export const searchState = atom<SearchState>({
+  key: "searchState",
+  default: {
+    text: "",
+    type: null,
+  },
 });

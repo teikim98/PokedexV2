@@ -137,7 +137,8 @@ const Header = () => {
             {/* 모바일 메뉴 */}
             {isOpen && (
                 <div className="md:hidden absolute top-14 left-0 right-0 bg-white border-t shadow-lg p-4 animate-slideDown">
-                    <form onSubmit={handleSubmit} className="relative">
+                    {/* 검색 폼 */}
+                    <form onSubmit={handleSubmit} className="relative mb-4">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                         <input
                             type="text"
@@ -145,11 +146,51 @@ const Header = () => {
                             onChange={handleInputChange}
                             placeholder="포켓몬 검색..."
                             className="w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500
-                           bg-gray-50 hover:bg-white transition-all duration-300"
+                bg-gray-50 hover:bg-white transition-all duration-300"
                         />
                     </form>
+
+                    {/* 즐겨찾기 섹션 */}
+                    <div className="mt-4">
+                        <div className="flex items-center gap-2 mb-2">
+                            <Heart size={20} className="text-gray-600" />
+                            <h3 className="font-semibold">즐겨찾기한 포켓몬</h3>
+                            {favorites.length > 0 && (
+                                <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
+                                    {favorites.length}
+                                </span>
+                            )}
+                        </div>
+
+                        {favorites.length === 0 ? (
+                            <div className="text-center text-gray-500 py-4 bg-gray-50 rounded-lg">
+                                즐겨찾기한 포켓몬이 없습니다
+                            </div>
+                        ) : (
+                            <div className="max-h-60 overflow-y-auto">
+                                {favorites.map(pokemon => (
+                                    <div
+                                        key={pokemon.id}
+                                        className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-300"
+                                        onClick={() => {
+                                            navigate(`/pokemon/${pokemon.id}`);
+                                            setIsOpen(false);
+                                        }}
+                                    >
+                                        <img
+                                            src={pokemon.image}
+                                            alt={pokemon.koreanName}
+                                            className="w-10 h-10"
+                                        />
+                                        <span>{pokemon.koreanName || pokemon.name}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        )}
+                    </div>
                 </div>
             )}
+
         </header>
     );
 };

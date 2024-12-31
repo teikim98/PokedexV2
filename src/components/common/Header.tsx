@@ -1,13 +1,17 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Menu, Search, X } from 'lucide-react';
-import { useRecoilState } from 'recoil';
+import { Link, useNavigate } from 'react-router-dom';
+import { Menu, Search, X, Heart } from 'lucide-react';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { searchState } from '../../store/searchStore';
+import { favoriteState } from '../../store/favoriteState';
 
 const Header = () => {
+    const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(false);
+    const [isFavoriteOpen, setIsFavoriteOpen] = useState(false);
     const [search, setSearch] = useRecoilState(searchState);
-    const [tempSearch, setTempSearch] = useState(search.text); // 초기값 설정
+    const favorites = useRecoilValue(favoriteState);
+    const [tempSearch, setTempSearch] = useState(search.text);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -18,7 +22,7 @@ const Header = () => {
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.stopPropagation(); // 이벤트 전파 중지
+        e.stopPropagation();
         setTempSearch(e.target.value);
     };
 
@@ -29,9 +33,8 @@ const Header = () => {
 
     const resetSearch = () => {
         setSearch({ text: '', type: null });
-        setTempSearch('');  // 로컬 상태도 초기화
+        setTempSearch('');
     };
-
 
 
     return (
@@ -60,9 +63,20 @@ const Header = () => {
                                 onChange={handleInputChange}
                                 placeholder="포켓몬 검색..."
                                 className="pl-10 pr-4 py-2 w-[300px] border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 
-                                transition-all duration-300 bg-gray-50 hover:bg-white hover:shadow-md"
+                               transition-all duration-300 bg-gray-50 hover:bg-white hover:shadow-md"
                             />
                         </form>
+                        <button
+                            onClick={() => setIsFavoriteOpen(prev => !prev)}
+                            className="p-2 rounded-full hover:bg-gray-100 relative transition-colors duration-300"
+                        >
+                            <Heart size={24} className="text-gray-600" />
+                            {favorites.length > 0 && (
+                                <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                                    {favorites.length}
+                                </span>
+                            )}
+                        </button>
                     </div>
                 </div>
 
@@ -89,6 +103,37 @@ const Header = () => {
                 </div>
             </div>
 
+            {/* 즐겨찾기 메뉴 */}
+            {isFavoriteOpen && (
+                <div className="absolute top-16 right-4 bg-white shadow-lg rounded-lg w-80 max-h-96 overflow-y-auto z-50 animate-slideDown">
+                    {favorites.length === 0 ? (
+                        <div className="p-4 text-center text-gray-500">
+                            즐겨찾기한 포켓몬이 없습니다
+                        </div>
+                    ) : (
+                        <div className="p-2">
+                            {favorites.map(pokemon => (
+                                <div
+                                    key={pokemon.id}
+                                    className="flex items-center gap-3 p-2 hover:bg-gray-50 rounded-lg cursor-pointer transition-colors duration-300"
+                                    onClick={() => {
+                                        navigate(`/pokemon/${pokemon.id}`);
+                                        setIsFavoriteOpen(false);
+                                    }}
+                                >
+                                    <img
+                                        src={pokemon.image}
+                                        alt={pokemon.koreanName}
+                                        className="w-10 h-10"
+                                    />
+                                    <span>{pokemon.koreanName || pokemon.name}</span>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            )}
+
             {/* 모바일 메뉴 */}
             {isOpen && (
                 <div className="md:hidden absolute top-14 left-0 right-0 bg-white border-t shadow-lg p-4 animate-slideDown">
@@ -100,7 +145,7 @@ const Header = () => {
                             onChange={handleInputChange}
                             placeholder="포켓몬 검색..."
                             className="w-full pl-10 pr-4 py-2 border rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500
-                            bg-gray-50 hover:bg-white transition-all duration-300"
+                           bg-gray-50 hover:bg-white transition-all duration-300"
                         />
                     </form>
                 </div>

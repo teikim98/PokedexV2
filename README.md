@@ -1,110 +1,111 @@
-Pokedex V2 (포켓몬 도감 Toy Project)
-📌 목차 (Table of Contents)
+# Pokedex V2 (포켓몬 도감 Toy Project)
 
-    프로젝트 소개 (Introduction to the Project)
-    개발 환경 (Development Environment)
-    주요 기능 (Key Features)
-    구현 상세 (Implementation Details)
-    트러블 슈팅 (Troubleshooting)
-    회고 (Lessons Learned)
+## 📌 목차 (Table of Contents)
+- [프로젝트 소개 (Introduction to the Project)](#프로젝트-소개-introduction-to-the-project)
+- [개발 환경 (Development Environment)](#개발-환경-development-environment)
+- [주요 기능 (Key Features)](#주요-기능-key-features)
+- [구현 상세 (Implementation Details)](#구현-상세-implementation-details)
+- [트러블 슈팅 (Troubleshooting)](#트러블-슈팅-troubleshooting)
+- [회고 (Lessons Learned)](#회고-lessons-learned)
 
-프로젝트 소개 (Introduction to the Project)
+## 프로젝트 소개 (Introduction to the Project)
 
-프로젝트명: Pokedex V2 (포켓몬 도감 Toy Project)
-프로젝트 메인 페이지:
+### 프로젝트명: Pokedex V2 (포켓몬 도감 Toy Project)
 
-    프로젝트 개요:
-    오픈소스 API인 PokeAPI에서 포켓몬 정보를 가져와, 웹 환경에서 포켓몬스터 게임과 유사한 형태로 정보를 보여주는 토이 프로젝트입니다.
-        메인 페이지에서는 포켓몬 목록이 도감 순서대로 표시됩니다.
-        상세 페이지에서 포켓몬의 능력치와 기본 정보를 확인할 수 있으며, 육각형 차트로 시각화했습니다.
+### 프로젝트 메인 페이지:
+![Project Main Page](image.png)
 
-    프로젝트 목적:
-        포켓몬 데이터를 활용해 무한 스크롤, 실시간 검색, 즐겨찾기 등 프론트엔드 기능을 학습하고자 합니다.
-        React Query와 Recoil 등 최신 라이브러리를 통해 전역 상태 관리와 데이터 캐싱 전략을 체험합니다.
+### 프로젝트 개요:
+오픈소스 PokeAPI에서 포켓몬 정보를 받아, 포켓몬스터 게임과 유사한 형태로 웹에서 정보를 보여주는 토이 프로젝트입니다.
+- 메인 페이지에 포켓몬 목록이 도감 순서대로 표시됩니다.
+- 상세 페이지에서는 능력치, 기본 정보를 육각형 차트로 시각화하여 제공합니다.
 
-개발 환경 (Development Environment)
-Front-end
+### 프로젝트 목적:
+- 무한 스크롤, 실시간 검색, 즐겨찾기 등 주요 프론트엔드 기능 구현
+- React Query, Recoil 등 라이브러리를 통한 데이터 캐싱 및 상태 관리 학습
 
-    React
-    TypeScript
-    React Query
-    Recoil
-    Tailwind CSS
+## 개발 환경 (Development Environment)
 
-Tools & etc.
+### Front-end
+- React
+- TypeScript
+- React Query
+- Recoil
+- Tailwind CSS
 
-    VSCode
-    GitHub (버전 관리)
-    Axios (API 호출)
-    Intersection Observer API (무한 스크롤 구현)
+### Tools & etc.
+- VSCode
+- GitHub (버전 관리)
+- Axios (API 통신)
+- Intersection Observer API (무한 스크롤 구현)
 
-주요 기능 (Key Features)
+## 주요 기능 (Key Features)
 
-    무한 스크롤 (Infinite Scroll)
-        Intersection Observer API와 useInfiniteQuery를 활용
-        포켓몬 목록을 자동으로 추가 로드하며, 스크롤 위치도 안정적으로 유지
+### 무한 스크롤 (Infinite Scroll)
+- Intersection Observer와 useInfiniteQuery로 구현
+- 스크롤 위치 안정 유지
 
-    실시간 검색 (Real-time Search)
-        포켓몬 이름 (한글/영문) 검색
-        타입별 필터링
-        검색어 + 타입 복합 조건 필터링
+### 실시간 검색 (Real-time Search)
+- 포켓몬 이름(한글/영문) 검색
+- 타입별 필터링
+- 검색어 + 타입 조합 검색
 
-    즐겨찾기 기능 (Bookmark)
-        localStorage를 통한 즐겨찾기 포켓몬 데이터 영속화 (추가 예정)
-        Recoil로 전역 상태 관리
-        모바일/데스크톱 환경 모두 지원
+### 즐겨찾기 (Bookmark)
+- localStorage를 통한 데이터 영속성 (추가 예정)
+- Recoil로 전역 상태 관리
+- 모바일/데스크톱 모두 지원
 
-구현 상세 (Implementation Details)
-1. React Query
+## 구현 상세 (Implementation Details)
 
-    데이터 캐싱: PokeAPI 응답을 캐싱하여, 뒤로 가기 시 불필요한 재호출을 방지
-    useInfiniteQuery: 포켓몬 목록 무한 스크롤에서 사용
-    캐싱 전략: 상세보기한 포켓몬 데이터를 재활용
+### 1. React Query
+- 캐싱 기능을 통해 뒤로가기로 돌아왔을 때 불필요한 API 호출을 방지
+- useInfiniteQuery로 무한 스크롤 상태 관리
+- 상세 페이지에서 포켓몬 데이터를 재활용
 
-2. Recoil
+### 2. Recoil
+- 검색어, 타입 필터, 즐겨찾기 포켓몬 목록 등 전역 상태 관리
+- localStorage와 연동(추가 예정)하여 즐겨찾기 목록을 브라우저 종료 후에도 저장
 
-    전역 상태 관리: 검색어, 타입 필터, 즐겨찾기 포켓몬 목록 등
-    localStorage와 연동**(추가 예정)**: 즐겨찾기 목록을 브라우저 종료 후에도 저장할 계획
+### 3. Tailwind CSS
+- 반응형 디자인(Mobile ~ Desktop)
+- 다크모드/라이트모드 지원(준비 중)
+- 일관성 있는 스타일과 애니메이션 효과 제공
 
-3. Tailwind CSS
+## 트러블 슈팅 (Troubleshooting)
 
-    반응형 디자인: Mobile ~ Desktop까지 대응
-    다크모드/라이트모드 지원(준비 중)
-    일관성 유지: 공통 클래스와 색상 팔레트를 통해 UI 통일
+### 문제 상황
+- PokeAPI에서는 영문 이름만 기본 제공
+- 한국어 이름을 위해서는 pokemon-species API를 추가 호출
+- 두 번의 API 호출로 로딩 시간이 길어지는 문제 발생
 
-트러블 슈팅 (Troubleshooting)
+### 해결 방법
+```typescript
+// 포켓몬 상세 정보 호출
+const getPokemonDetail = async (id: string | number): Promise<Pokemon> => {
+  const response = await axios.get<Pokemon>(`${BASE_URL}/pokemon/${id}`);
+  return response.data;
+};
 
-    문제상황
+// 포켓몬 species 정보 (한국어 이름) 호출
+const getPokemonSpecies = async (id: string | number): Promise<string | undefined> => {
+  const response = await axios.get<PokemonSpecies>(`${BASE_URL}/pokemon-species/${id}`);
+  return response.data.names.find(name => name.language.name === 'ko')?.name;
+};
+```
 
-        PokeAPI는 영문 이름만 기본적으로 제공
-        한국어 이름(species API)이 필요해 추가 API 호출 발생
-        결과적으로 두 번의 API 호출이 필요한 상황 (상세 정보 + species)
+- React Query 캐시 활용 → 재호출 최소화
+- 데이터 가공 후 영문/한글 병행 표시 가능
 
-    해결방법
+## 회고 (Lessons Learned)
 
-        비동기 병렬 호출:
+### 데이터 구조 사전 설계
+- PokeAPI 응답 중 필요한 부분만 선별해 활용하는 과정이 필수
 
-        getPokemonDetail: async (id) => { /* 상세 정보 호출 */ },
-        getPokemonSpecies: async (id) => { /* 한국어 이름 호출 */ },
+### React Query & 무한 스크롤
+- useInfiniteQuery로 유저 편의성과 성능 최적화를 모두 달성
 
-            Promise.all 등을 사용해 API 호출을 동시에 처리
-            한번 불러온 데이터는 React Query로 캐싱
-        데이터 가공:
-            species API에서 받은 한국어 이름을 별도의 객체 필드로 저장해둠
-            화면에서는 영어/한글 중 원하는 방식으로 표기 가능
+### 한국어 데이터 처리
+- 영문만 제공되는 API를 국내 사용자를 위해 별도 Species API 호출 및 가공
 
-    결과
-
-        로딩 시간 절반 단축: 상세정보와 한국어 이름을 병렬로 호출
-        재호출 최소화: 한 번 가져온 한국어 이름은 캐싱으로 재활용
-
-회고 (Lessons Learned)
-
-    데이터 구조 사전 설계의 중요성
-        PokeAPI에서 제공되는 다양한 정보 중, 필요한 데이터만 선별해 구조화하는 단계가 필수
-    React Query & 무한 스크롤의 시너지
-        useInfiniteQuery를 통해 불필요한 re-fetch를 막고, UX를 향상할 수 있었음
-    한국어 데이터 처리
-        API가 제공하지 않는 언어 데이터가 필요한 경우, 별도 API 호출 또는 JSON 매핑 전략이 필요
-    상태 관리와 캐싱 전략
-        전역 상태(Recoil)와 API 캐싱(React Query)을 분리해 역할을 명확히 구분함으로써 코드 가독성과 유지보수성을 높임
+### 상태 관리 & 캐싱 전략
+- 전역 상태와 API 캐싱을 분리하여 코드 가독성과 유지보수성 개선

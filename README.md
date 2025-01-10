@@ -13,7 +13,8 @@
 ### 프로젝트명: Pokedex V2 (포켓몬 도감 Toy Project)
 
 ### 프로젝트 메인 페이지:
-![Project Main Page](image.png)
+<img width="1514" alt="스크린샷 2025-01-02 오후 2 27 27" src="https://github.com/user-attachments/assets/079a6ce8-ca8c-4ee3-9934-684111dddc41" />
+<img width="973" alt="스크린샷 2025-01-02 오후 2 32 54" src="https://github.com/user-attachments/assets/90b6aa9d-7424-4c80-813f-baaecb0b4271" />
 
 ### 프로젝트 개요:
 오픈소스 PokeAPI에서 포켓몬 정보를 받아, 포켓몬스터 게임과 유사한 형태로 웹에서 정보를 보여주는 토이 프로젝트입니다.
